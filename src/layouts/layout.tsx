@@ -81,13 +81,15 @@ const MainLayout: React.FC = () => {
   const getActiveKey = (path: string) => {
     const item = MENU_ITEMS.find((item) => {
       if (item.children) {
-        return item.children.some((child) => child.path === path);
+        return item.children.some((child) => path.startsWith(child.path ?? ""));
       }
       return item.path === path;
     });
     if (item) {
       if (item.children) {
-        const child = item.children.find((child) => child.path === path);
+        const child = item.children.find((child) =>
+          path.startsWith(child.path ?? "")
+        );
         return child ? child.key : item.key;
       }
       return item.key;
