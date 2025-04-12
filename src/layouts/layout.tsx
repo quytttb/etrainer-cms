@@ -2,7 +2,9 @@ import React from "react";
 import { BarChartOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Flex, Layout, Menu } from "antd";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { FaRegUserCircle } from "react-icons/fa";
+import { IoBookOutline } from "react-icons/io5";
 
 const { Header, Content, Sider } = Layout;
 
@@ -17,27 +19,112 @@ const siderStyle: React.CSSProperties = {
   scrollbarGutter: "stable",
 };
 
-const items: MenuProps["items"] = [
+const MENU_ITEMS = [
   {
     key: "1",
     icon: <BarChartOutlined />,
-    label: <Link to="/">Dashboard</Link>,
+    label: "Dashboard",
+    path: "/",
   },
   {
     key: "2",
-    icon: <BarChartOutlined />,
-    label: <Link to="/users">User management</Link>,
+    icon: <FaRegUserCircle />,
+    label: "Quản lý người dùng",
+    path: "/users",
+  },
+  {
+    key: "3",
+    icon: <IoBookOutline />,
+    label: "Quản lý bài học",
+    children: [
+      {
+        key: "3-1",
+        label: "Từ vựng",
+        path: "/vocabulary",
+      },
+      {
+        key: "3-2",
+        label: "Ngữ pháp",
+        path: "/grammar",
+      },
+      {
+        key: "3-3",
+        label: "Luyện đọc",
+        path: "/reading",
+      },
+      {
+        key: "3-4",
+        label: "Luyện nghe",
+        pat: "/listening",
+      },
+    ],
   },
 ];
 
+const items: MenuProps["items"] = MENU_ITEMS.map((it) => ({
+  key: it.key,
+  icon: it.icon,
+  label: it.path ? <Link to={it.path}>{it.label}</Link> : it.label,
+  children: it.children?.map((child) => ({
+    key: child.key,
+    label: child.path ? (
+      <Link to={child.path}>{child.label}</Link>
+    ) : (
+      child.label
+    ),
+  })),
+}));
+
 const MainLayout: React.FC = () => {
+  const location = useLocation();
+
+  const getActiveKey = (path: string) => {
+    const item = MENU_ITEMS.find((item) => {
+      if (item.children) {
+        return item.children.some((child) => child.path === path);
+      }
+      return item.path === path;
+    });
+    if (item) {
+      if (item.children) {
+        const child = item.children.find((child) => child.path === path);
+        return child ? child.key : item.key;
+      }
+      return item.key;
+    }
+    return "";
+  };
+  const activeKey = getActiveKey(location.pathname);
+
+  const getOpenKeys = (key: string) => {
+    const item = MENU_ITEMS.find((item) => {
+      if (item.children) {
+        return item.children.some((child) => child.key === key);
+      }
+      return item.key === key;
+    });
+    if (item) {
+      if (item.children) {
+        return [item.key];
+      }
+      return [];
+    }
+    return [];
+  };
+  const openKeys = getOpenKeys(activeKey);
+
   return (
     <Layout hasSider>
       <Sider style={siderStyle} width={256} theme="light">
         <p className="font-semibold h-16 flex items-center justify-center text-xl">
           CMS
         </p>
-        <Menu mode="inline" items={items} />
+        <Menu
+          mode="inline"
+          items={items}
+          selectedKeys={[activeKey]}
+          defaultOpenKeys={openKeys}
+        />
       </Sider>
 
       <Layout className="h-screen overflow-hidden">
