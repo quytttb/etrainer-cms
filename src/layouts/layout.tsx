@@ -6,6 +6,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
 import { FaRegCircleQuestion } from "react-icons/fa6";
+import { PiExamLight } from "react-icons/pi";
 
 const { Header, Content, Sider } = Layout;
 
@@ -60,6 +61,12 @@ const MENU_ITEMS = [
     icon: <FaRegCircleQuestion />,
     label: "Quản lý câu hỏi",
     path: "/questions",
+  },
+  {
+    key: "5",
+    icon: <PiExamLight />,
+    label: "Quản lý đề thi",
+    path: "/exam",
   },
 ];
 

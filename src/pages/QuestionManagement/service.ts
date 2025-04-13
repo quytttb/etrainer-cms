@@ -13,6 +13,7 @@ interface NestedQuestion {
 
 export interface IQuestion {
   _id: string;
+  questionNumber: number;
   type: LessonType;
   question?: string | null;
   audio?: {

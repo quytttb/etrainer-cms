@@ -14,6 +14,9 @@ import EditLesson from "../pages/LessonManagement/LessonManagement/EditLesson";
 import ListQuestion from "../pages/QuestionManagement/ListQuestion";
 import AddQuestion from "../pages/QuestionManagement/AddQuestion";
 import EditQuestion from "../pages/QuestionManagement/EditQuestion";
+import ListExam from "../pages/ExamManagament/ListExam";
+import AddExam from "../pages/ExamManagament/AddExam";
+import EditExam from "../pages/ExamManagament/EditExam";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +86,20 @@ const router = createBrowserRouter([
       {
         path: "/questions/edit/:id",
         element: <EditQuestion />,
+      },
+
+      // exam
+      {
+        path: "/exam",
+        element: <ListExam />,
+      },
+      {
+        path: "/exam/add",
+        element: <AddExam />,
+      },
+      {
+        path: "/exam/edit/:id",
+        element: <EditExam />,
       },
     ],
   },

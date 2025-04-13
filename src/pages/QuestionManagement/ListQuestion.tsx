@@ -40,6 +40,12 @@ const ListQuestion = () => {
 
   const columns: TableProps<IQuestion>["columns"] = [
     {
+      title: "Câu hỏi",
+      dataIndex: "questionNumber",
+      key: "questionNumber",
+      render: (_, record) => `Câu ${record.questionNumber}`,
+    },
+    {
       title: "Loại câu hỏi",
       dataIndex: "type",
       key: "type",
