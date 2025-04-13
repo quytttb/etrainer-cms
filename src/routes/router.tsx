@@ -11,6 +11,9 @@ import EditGrammar from "../pages/LessonManagement/GrammarManagement/EditGrammar
 import ListLesson from "../pages/LessonManagement/LessonManagement/ListLesson";
 import AddLesson from "../pages/LessonManagement/LessonManagement/AddLesson";
 import EditLesson from "../pages/LessonManagement/LessonManagement/EditLesson";
+import ListQuestion from "../pages/QuestionManagement/ListQuestion";
+import AddQuestion from "../pages/QuestionManagement/AddQuestion";
+import EditQuestion from "../pages/QuestionManagement/EditQuestion";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +69,20 @@ const router = createBrowserRouter([
       {
         path: "/lesson/edit/:id",
         element: <EditLesson />,
+      },
+
+      // question
+      {
+        path: "/questions",
+        element: <ListQuestion />,
+      },
+      {
+        path: "/questions/add",
+        element: <AddQuestion />,
+      },
+      {
+        path: "/questions/edit/:id",
+        element: <EditQuestion />,
       },
     ],
   },

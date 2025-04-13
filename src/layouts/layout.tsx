@@ -5,6 +5,7 @@ import { Flex, Layout, Menu } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
+import { FaRegCircleQuestion } from "react-icons/fa6";
 
 const { Header, Content, Sider } = Layout;
 
@@ -54,6 +55,12 @@ const MENU_ITEMS = [
       },
     ],
   },
+  {
+    key: "4",
+    icon: <FaRegCircleQuestion />,
+    label: "Quản lý câu hỏi",
+    path: "/questions",
+  },
 ];
 
 const items: MenuProps["items"] = MENU_ITEMS.map((it) => ({
@@ -78,7 +85,14 @@ const MainLayout: React.FC = () => {
       if (item.children) {
         return item.children.some((child) => path.startsWith(child.path ?? ""));
       }
-      return item.path === path;
+
+      if (item.path === path) {
+        return true;
+      } else if (item.path === "/") {
+        return path === item.path;
+      }
+
+      return path.startsWith(item.path ?? "");
     });
     if (item) {
       if (item.children) {
