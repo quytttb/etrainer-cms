@@ -49,13 +49,8 @@ const MENU_ITEMS = [
       },
       {
         key: "3-3",
-        label: "Luyện đọc",
-        path: "/reading",
-      },
-      {
-        key: "3-4",
-        label: "Luyện nghe",
-        pat: "/listening",
+        label: "Bài học",
+        path: "/lesson",
       },
     ],
   },

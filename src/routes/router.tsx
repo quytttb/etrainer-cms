@@ -8,6 +8,9 @@ import EditVocabulary from "../pages/LessonManagement/VocabularyManagement/EditV
 import ListGrammar from "../pages/LessonManagement/GrammarManagement/ListGrammar";
 import AddGrammar from "../pages/LessonManagement/GrammarManagement/AddGrammar";
 import EditGrammar from "../pages/LessonManagement/GrammarManagement/EditGrammar";
+import ListLesson from "../pages/LessonManagement/LessonManagement/ListLesson";
+import AddLesson from "../pages/LessonManagement/LessonManagement/AddLesson";
+import EditLesson from "../pages/LessonManagement/LessonManagement/EditLesson";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +52,20 @@ const router = createBrowserRouter([
       {
         path: "/grammar/edit/:id",
         element: <EditGrammar />,
+      },
+
+      // lesson
+      {
+        path: "/lesson",
+        element: <ListLesson />,
+      },
+      {
+        path: "/lesson/add",
+        element: <AddLesson />,
+      },
+      {
+        path: "/lesson/edit/:id",
+        element: <EditLesson />,
       },
     ],
   },
