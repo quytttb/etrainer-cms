@@ -8,6 +8,7 @@ export interface IUser {
   level: string;
   role: string;
   registrationMethod: "EMAIL" | "GOOGLE";
+  gender: "MALE" | "FEMALE" | "OTHER";
 }
 
 export const getUsers = (): Promise<IUser[]> => {

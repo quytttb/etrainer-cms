@@ -36,11 +36,31 @@ const UserManagement = () => {
       key: "email",
     },
     {
+      title: "Số điện thoại",
+      dataIndex: "phone",
+      key: "phone",
+      render: (phone) => phone || "-",
+    },
+    {
       title: "Ngày sinh",
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
-      render: (date) =>
-        date ? dayjs(date).format("DD/MM/YYYY") : "Chưa cập nhật",
+      render: (date) => (date ? dayjs(date).format("DD/MM/YYYY") : "-"),
+    },
+    {
+      title: "Giới tính",
+      dataIndex: "gender",
+      render: (gender) => {
+        if (!gender) return "-";
+
+        if (gender === "MALE") {
+          return <span className="text-blue-500">Nam</span>;
+        } else if (gender === "FEMALE") {
+          return <span className="text-red-500">Nữ</span>;
+        } else {
+          return <span className="text-gray-500">Khác</span>;
+        }
+      },
     },
     {
       title: "Trình độ",
