@@ -1,12 +1,14 @@
 import React from "react";
 import { BarChartOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Flex, Layout, Menu } from "antd";
+import { Avatar, Dropdown, Flex, Layout, Menu } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import { PiExamLight } from "react-icons/pi";
+import useProfile from "../hooks/useProfile";
+import useAuth from "../hooks/useAuth";
 
 const { Header, Content, Sider } = Layout;
 
@@ -87,6 +89,10 @@ const items: MenuProps["items"] = MENU_ITEMS.map((it) => ({
 const MainLayout: React.FC = () => {
   const location = useLocation();
 
+  const { onLogout } = useAuth();
+
+  const { profile, isLoading } = useProfile();
+
   const getActiveKey = (path: string) => {
     const item = MENU_ITEMS.find((item) => {
       if (item.children) {
@@ -147,18 +153,37 @@ const MainLayout: React.FC = () => {
 
       <Layout className="h-screen overflow-hidden">
         <Header className="!bg-white flex items-center justify-end !px-4 !leading-5">
-          <Flex align="center" gap={6}>
-            <img
-              src="https://picsum.photos/200/200"
-              alt="Avatar"
-              className="size-9 rounded-full object-cover"
-            />
+          {!isLoading && (
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: 1,
+                    label: "Đăng xuất",
+                    onClick: onLogout,
+                  },
+                ],
+              }}
+              trigger={["click"]}
+            >
+              <Flex align="center" gap={6} className="cursor-pointer">
+                {profile?.avatarUrl ? (
+                  <img
+                    src={profile?.avatarUrl}
+                    alt="Avatar"
+                    className="size-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <Avatar size="large">{profile?.name.charAt(0)}</Avatar>
+                )}
 
-            <div>
-              <p className="font-semibold">Admin</p>
-              <p className="text-gray-500">admin@gmail.com</p>
-            </div>
-          </Flex>
+                <div>
+                  <p className="font-semibold">{profile?.name}</p>
+                  <p className="text-gray-500">{profile?.email}</p>
+                </div>
+              </Flex>
+            </Dropdown>
+          )}
         </Header>
         <Content className="p-4 overflow-y-auto">
           <Outlet />

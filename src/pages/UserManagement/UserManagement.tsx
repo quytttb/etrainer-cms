@@ -1,4 +1,4 @@
-import { Flex, Table, TableProps } from "antd";
+import { Avatar, Flex, Table, TableProps } from "antd";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers, IUser } from "./service";
@@ -16,11 +16,15 @@ const UserManagement = () => {
       key: "user",
       render: (_, record) => (
         <Flex align="center" gap={8}>
-          <img
-            src={record.avatarUrl}
-            alt="Avatar"
-            className="size-9 object-cover rounded-full"
-          />
+          {record.avatarUrl ? (
+            <img
+              src={record.avatarUrl}
+              alt="Avatar"
+              className="size-8 object-cover rounded-full"
+            />
+          ) : (
+            <Avatar>{record.name.charAt(0)}</Avatar>
+          )}
 
           <p>{record.name}</p>
         </Flex>
@@ -35,7 +39,8 @@ const UserManagement = () => {
       title: "Ngày sinh",
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
-      render: (date) => dayjs(date).format("DD/MM/YYYY"),
+      render: (date) =>
+        date ? dayjs(date).format("DD/MM/YYYY") : "Chưa cập nhật",
     },
     {
       title: "Trình độ",
@@ -47,6 +52,17 @@ const UserManagement = () => {
       dataIndex: "createdAt",
       key: "createdAt",
       render: (date) => dayjs(date).format("DD/MM/YYYY HH:mm:ss"),
+    },
+    {
+      title: "Phương thức đăng ký",
+      dataIndex: "registrationMethod",
+      key: "registrationMethod",
+      render: (method) => {
+        if (method === "EMAIL") {
+          return <span className="text-blue-500">Email</span>;
+        }
+        return <span className="text-red-500">Google</span>;
+      },
     },
     {
       title: "Vai trò",
@@ -71,6 +87,7 @@ const UserManagement = () => {
         className="mt-4"
         rowKey="_id"
         pagination={{ hideOnSinglePage: true }}
+        scroll={{ x: 1000 }}
       />
     </>
   );

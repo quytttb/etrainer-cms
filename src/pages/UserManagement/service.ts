@@ -7,6 +7,7 @@ export interface IUser {
   dateOfBirth: string;
   level: string;
   role: string;
+  registrationMethod: "EMAIL" | "GOOGLE";
 }
 
 export const getUsers = (): Promise<IUser[]> => {

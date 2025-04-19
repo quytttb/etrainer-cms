@@ -17,11 +17,17 @@ import EditQuestion from "../pages/QuestionManagement/EditQuestion";
 import ListExam from "../pages/ExamManagament/ListExam";
 import AddExam from "../pages/ExamManagament/AddExam";
 import EditExam from "../pages/ExamManagament/EditExam";
+import PrivateRoutes from "../components/PrivateRoutes/PrivateRoutes";
+import Login from "../pages/Login/Login";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <PrivateRoutes>
+        <MainLayout />
+      </PrivateRoutes>
+    ),
     children: [
       {
         path: "/",
@@ -102,6 +108,21 @@ const router = createBrowserRouter([
         element: <EditExam />,
       },
     ],
+  },
+
+  {
+    path: "/login",
+    element: <Login />,
+    loader: () => {
+      const isAuthenticated = localStorage.getItem(
+        import.meta.env.VITE_ACCESS_TOKEN_KEY
+      );
+      if (isAuthenticated) {
+        window.location.href = "/";
+      }
+
+      return null;
+    },
   },
 ]);
 
