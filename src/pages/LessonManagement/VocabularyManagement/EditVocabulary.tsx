@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import { Button, Form, Input, message } from "antd";
@@ -7,6 +8,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import request from "../../../api/request";
 import { useEffect } from "react";
 import FormWrapper from "../../../components/FormWrapper/FormWrapper";
+import UploadFormItem from "../../../components/UploadFormItem/UploadFormItem";
+import uploadMedia from "../../../utils/uploadMedia";
 
 const EditVocabulary = () => {
   const navigate = useNavigate();
@@ -23,8 +26,29 @@ const EditVocabulary = () => {
 
   const editVocabularyMutation = useMutation({
     mutationKey: ["EDIT_VOCABULARY"],
-    mutationFn: (values: IVocabulary) => {
-      return request.put(`/vocabulary/${id}`, values);
+    mutationFn: async (values: any) => {
+      const { words, ...rest } = values;
+
+      const newWords = await Promise.all(
+        words.map(async (it: any) => {
+          const audioUrl = it.audio?.file
+            ? await uploadMedia(it.audio.file.originFileObj)
+            : it.audio.previewUrl;
+
+          return {
+            ...it,
+            audio: {
+              url: audioUrl,
+              name: it.audio.name,
+            },
+          };
+        })
+      );
+
+      return request.put(`/vocabulary/${id}`, {
+        ...rest,
+        words: newWords,
+      });
     },
     onSuccess: () => {
       message.success("Cập nhật từ vựng thành công");
@@ -42,7 +66,11 @@ const EditVocabulary = () => {
         words: data.words.map((word) => ({
           word: word.word,
           meaning: word.meaning,
-          example: word.example,
+          pronunciation: word.pronunciation,
+          audio: {
+            previewUrl: word.audio.url,
+            name: word.audio.name,
+          },
         })),
       });
     }
@@ -83,7 +111,7 @@ const EditVocabulary = () => {
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
-                  <div key={key} className="grid grid-cols-4 gap-4">
+                  <div key={key} className="grid grid-cols-12 gap-4">
                     <Form.Item
                       {...restField}
                       name={[name, "word"]}
@@ -91,6 +119,7 @@ const EditVocabulary = () => {
                       rules={[
                         { required: true, message: "Vui lòng nhập từ vựng" },
                       ]}
+                      rootClassName="col-span-3"
                     >
                       <Input placeholder="Nhập từ vựng" />
                     </Form.Item>
@@ -101,18 +130,38 @@ const EditVocabulary = () => {
                       rules={[
                         { required: true, message: "Vui lòng nhập nghĩa" },
                       ]}
+                      rootClassName="col-span-3"
                     >
                       <Input placeholder="Nhập nghĩa" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "example"]}
-                      label="Ví dụ"
+                      name={[name, "pronunciation"]}
+                      label="Cách phát âm"
                       rules={[
-                        { required: true, message: "Vui lòng nhập ví dụ" },
+                        {
+                          required: true,
+                          message: "Vui lòng nhập cách phát âm",
+                        },
                       ]}
+                      rootClassName="col-span-3"
                     >
-                      <Input placeholder="Nhập ví dụ" />
+                      <Input placeholder="Nhập cách phát âm" />
+                    </Form.Item>
+
+                    <Form.Item
+                      {...restField}
+                      name={[name, "audio"]}
+                      label="Audio"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng chọn file audio",
+                        },
+                      ]}
+                      rootClassName="col-span-2"
+                    >
+                      <UploadFormItem accept="audio/*" />
                     </Form.Item>
 
                     {fields.length > 1 && (

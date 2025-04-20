@@ -7,7 +7,11 @@ export interface IVocabulary {
     _id: string;
     word: string;
     meaning: string;
-    example: string;
+    pronunciation: string;
+    audio: {
+      url: string;
+      name: string;
+    };
   }[];
 }
 

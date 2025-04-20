@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate } from "react-router-dom";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import { Button, Form, Input, message } from "antd";
@@ -6,13 +7,36 @@ import { IVocabulary } from "./service";
 import { useMutation } from "@tanstack/react-query";
 import request from "../../../api/request";
 import FormWrapper from "../../../components/FormWrapper/FormWrapper";
+import UploadFormItem from "../../../components/UploadFormItem/UploadFormItem";
+import uploadMedia from "../../../utils/uploadMedia";
 
 const AddVocabulary = () => {
   const navigate = useNavigate();
 
   const addVocabularyMutation = useMutation({
     mutationKey: ["ADD_VOCABULARY"],
-    mutationFn: (values: IVocabulary) => request.post("/vocabulary", values),
+    mutationFn: async (values: any) => {
+      const { words, ...rest } = values;
+
+      const newWords = await Promise.all(
+        words.map(async (it: any) => {
+          const audioUrl = await uploadMedia(it.audio.file.originFileObj);
+
+          return {
+            ...it,
+            audio: {
+              url: audioUrl,
+              name: it.audio.file.name,
+            },
+          };
+        })
+      );
+
+      return request.post("/vocabulary", {
+        ...rest,
+        words: newWords,
+      });
+    },
     onSuccess: () => {
       message.success("Thêm từ vựng thành công");
       navigate("/vocabulary");
@@ -56,7 +80,7 @@ const AddVocabulary = () => {
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
-                  <div key={key} className="grid grid-cols-4 gap-4">
+                  <div key={key} className="grid grid-cols-12 gap-4">
                     <Form.Item
                       {...restField}
                       name={[name, "word"]}
@@ -64,6 +88,7 @@ const AddVocabulary = () => {
                       rules={[
                         { required: true, message: "Vui lòng nhập từ vựng" },
                       ]}
+                      rootClassName="col-span-3"
                     >
                       <Input placeholder="Nhập từ vựng" />
                     </Form.Item>
@@ -74,18 +99,38 @@ const AddVocabulary = () => {
                       rules={[
                         { required: true, message: "Vui lòng nhập nghĩa" },
                       ]}
+                      rootClassName="col-span-3"
                     >
                       <Input placeholder="Nhập nghĩa" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "example"]}
-                      label="Ví dụ"
+                      name={[name, "pronunciation"]}
+                      label="Cách phát âm"
                       rules={[
-                        { required: true, message: "Vui lòng nhập ví dụ" },
+                        {
+                          required: true,
+                          message: "Vui lòng nhập cách phát âm",
+                        },
                       ]}
+                      rootClassName="col-span-3"
                     >
-                      <Input placeholder="Nhập ví dụ" />
+                      <Input placeholder="Nhập cách phát âm" />
+                    </Form.Item>
+
+                    <Form.Item
+                      {...restField}
+                      name={[name, "audio"]}
+                      label="Audio"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng chọn file audio",
+                        },
+                      ]}
+                      rootClassName="col-span-2"
+                    >
+                      <UploadFormItem accept="audio/*" />
                     </Form.Item>
 
                     {fields.length > 1 && (
