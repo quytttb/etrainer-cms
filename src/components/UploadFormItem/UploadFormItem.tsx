@@ -5,13 +5,21 @@ import classNames from "classnames";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { isAudioFile } from "../../utils/isAudioFile";
 
+interface IUploadFormItemProps {
+  value?: any;
+  onChange?: any;
+  previewClassName?: string;
+  uploadTxt?: string;
+  accept?: string;
+}
+
 const UploadFormItem = ({
   value,
   onChange,
   previewClassName,
   uploadTxt,
   accept = "image/*",
-}: any) => {
+}: IUploadFormItemProps) => {
   const isAudio = isAudioFile(value?.name ?? "");
 
   const onFileChange = ({ file }: any) => {
