@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import PageTitle from "../../../components/PageTitle/PageTitle";
-import { Button, message, Popconfirm, Table, TableProps, Tooltip } from "antd";
+import { Button, message, Popconfirm, Table, TableProps } from "antd";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import request from "../../../api/request";
@@ -26,37 +26,23 @@ const ListGrammar = () => {
 
   const columns: TableProps<IGrammar>["columns"] = [
     {
-      title: "Tiêu đề",
-      dataIndex: "title",
-      key: "title",
+      title: "Chủ đề",
+      dataIndex: "topic",
+      key: "topic",
       width: "15%",
     },
     {
-      title: "Nội dung",
-      dataIndex: "explanation",
-      key: "explanation",
+      title: "Ngữ pháp",
+      key: "grammarCount",
       width: "30%",
-      render: (explanation) => (
-        <Tooltip title={explanation}>
-          <p className="line-clamp-3">{explanation}</p>
-        </Tooltip>
-      ),
-    },
-    {
-      title: "Ví dụ",
-      dataIndex: "examples",
-      key: "examples",
-      width: "30%",
-      render: (_, record) => (
-        <div className="flex flex-col">
-          {record.examples.map((example, index) => (
-            <div key={index} className="flex items-center">
-              <span>{index + 1}. </span>
-              <span className="ml-2">{example}</span>
-            </div>
-          ))}
-        </div>
-      ),
+      render: (_, record) =>
+        record.grammars.map((grammar, idx) => (
+          <div key={grammar.title}>
+            <p>
+              {idx + 1}. {grammar.title}
+            </p>
+          </div>
+        )),
     },
     {
       title: "Ngày tạo",
