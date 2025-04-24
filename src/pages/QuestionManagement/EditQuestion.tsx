@@ -18,6 +18,7 @@ import Type3Form from "./Type3Form/Type3Form";
 import Type4Form from "./Type4Form/Type4Form";
 import Type5Form from "./Type5Form/Type5Form";
 import { getQuestionById } from "./service";
+import Type6Form from "./Type6Form/Type6Form";
 
 const EditQuestion = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const EditQuestion = () => {
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type") as LESSON_TYPE;
 
-  const { type1, type2, type3, type4, type5 } = useMemo(() => {
+  const { type1, type2, type3, type4, type5, type6 } = useMemo(() => {
     const type1 = [LESSON_TYPE.IMAGE_DESCRIPTION].includes(type);
     const type2 = [LESSON_TYPE.ASK_AND_ANSWER].includes(type);
     const type3 = [
@@ -37,12 +38,10 @@ const EditQuestion = () => {
       LESSON_TYPE.SHORT_TALK,
     ].includes(type);
     const type4 = [LESSON_TYPE.FILL_IN_THE_BLANK_QUESTION].includes(type);
-    const type5 = [
-      LESSON_TYPE.FILL_IN_THE_PARAGRAPH,
-      LESSON_TYPE.READ_AND_UNDERSTAND,
-    ].includes(type);
+    const type5 = [LESSON_TYPE.FILL_IN_THE_PARAGRAPH].includes(type);
+    const type6 = [LESSON_TYPE.READ_AND_UNDERSTAND].includes(type);
 
-    return { type1, type2, type3, type4, type5 };
+    return { type1, type2, type3, type4, type5, type6 };
   }, [type]);
 
   const { data } = useQuery({
@@ -90,8 +89,18 @@ const EditQuestion = () => {
       return;
     }
 
+    if (type6) {
+      form.setFieldsValue({
+        ...data,
+        image: {
+          previewUrl: data.imageUrl,
+        },
+      });
+      return;
+    }
+
     form.setFieldsValue(data);
-  }, [data, form, type1, type2, type3]);
+  }, [data, form, type1, type2, type3, type6]);
 
   const updateQuestionMutation = useMutation({
     mutationKey: ["UPDATE_QUESTION"],
@@ -158,6 +167,23 @@ const EditQuestion = () => {
         };
       }
 
+      if (type6) {
+        const imageUrl = values.image.file
+          ? await uploadMedia(values.image.file.originFileObj)
+          : values.image.previewUrl;
+
+        payload = {
+          ...payload,
+          ...values,
+          imageUrl,
+        };
+      }
+
+      payload = {
+        ...payload,
+        ...values,
+      };
+
       return request.put(`/question/${id}`, payload);
     },
     onSuccess: () => {
@@ -190,6 +216,7 @@ const EditQuestion = () => {
         {type3 && <Type3Form />}
         {type4 && <Type4Form />}
         {type5 && <Type5Form />}
+        {type6 && <Type6Form />}
 
         <Form.Item>
           <Button

@@ -12,6 +12,7 @@ import Type2Form from "./Type2Form/Type2Form";
 import Type3Form from "./Type3Form/Type3Form";
 import Type4Form from "./Type4Form/Type4Form";
 import Type5Form from "./Type5Form/Type5Form";
+import Type6Form from "./Type6Form/Type6Form";
 
 const AddQuestion = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const AddQuestion = () => {
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type") as LESSON_TYPE;
 
-  const { type1, type2, type3, type4, type5 } = useMemo(() => {
+  const { type1, type2, type3, type4, type5, type6 } = useMemo(() => {
     const type1 = [LESSON_TYPE.IMAGE_DESCRIPTION].includes(type);
     const type2 = [LESSON_TYPE.ASK_AND_ANSWER].includes(type);
     const type3 = [
@@ -27,12 +28,10 @@ const AddQuestion = () => {
       LESSON_TYPE.SHORT_TALK,
     ].includes(type);
     const type4 = [LESSON_TYPE.FILL_IN_THE_BLANK_QUESTION].includes(type);
-    const type5 = [
-      LESSON_TYPE.FILL_IN_THE_PARAGRAPH,
-      LESSON_TYPE.READ_AND_UNDERSTAND,
-    ].includes(type);
+    const type5 = [LESSON_TYPE.FILL_IN_THE_PARAGRAPH].includes(type);
+    const type6 = [LESSON_TYPE.READ_AND_UNDERSTAND].includes(type);
 
-    return { type1, type2, type3, type4, type5 };
+    return { type1, type2, type3, type4, type5, type6 };
   }, [type]);
 
   const addQuestionMutation = useMutation({
@@ -91,6 +90,21 @@ const AddQuestion = () => {
         };
       }
 
+      if (type6) {
+        const imageUrl = await uploadMedia(values.image.file.originFileObj);
+
+        payload = {
+          ...payload,
+          ...values,
+          imageUrl,
+        };
+      }
+
+      payload = {
+        ...payload,
+        ...values,
+      };
+
       return request.post("/question", payload);
     },
     onSuccess: () => {
@@ -123,6 +137,7 @@ const AddQuestion = () => {
         {type3 && <Type3Form />}
         {type4 && <Type4Form />}
         {type5 && <Type5Form />}
+        {type6 && <Type6Form />}
 
         <Form.Item>
           <Button
