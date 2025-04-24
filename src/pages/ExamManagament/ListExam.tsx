@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import request from "../../api/request";
 import { getExamList, IExam } from "./service";
+import { LESSON_TYPE } from "../../constants/lesson-type";
 
 const ListExam = () => {
   const { data, refetch } = useQuery({
@@ -35,8 +36,23 @@ const ListExam = () => {
       key: "questions",
       render: (_, record) => {
         const totalQuestions = record.sections.reduce((acc, section) => {
-          return acc + section.questions.length;
+          if (
+            [
+              LESSON_TYPE.IMAGE_DESCRIPTION,
+              LESSON_TYPE.ASK_AND_ANSWER,
+              LESSON_TYPE.FILL_IN_THE_BLANK_QUESTION,
+            ].includes(section.type)
+          ) {
+            return acc + section.questions.length;
+          }
+
+          const total = section.questions.reduce((acc, question) => {
+            return acc + question.questions!.length;
+          }, 0);
+
+          return acc + total;
         }, 0);
+
         return totalQuestions;
       },
     },

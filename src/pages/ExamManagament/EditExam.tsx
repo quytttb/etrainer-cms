@@ -38,7 +38,13 @@ const EditExam = () => {
 
   useEffect(() => {
     if (data) {
-      form.setFieldsValue(data);
+      form.setFieldsValue({
+        ...data,
+        sections: data.sections.map((section) => ({
+          ...section,
+          questions: section.questions.map((question) => question._id),
+        })),
+      });
     }
   }, [data, form]);
 

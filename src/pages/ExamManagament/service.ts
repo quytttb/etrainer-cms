@@ -1,5 +1,5 @@
 import request from "../../api/request";
-import { LessonType } from "../../constants/lesson-type";
+import { LESSON_TYPE } from "../../constants/lesson-type";
 import { IQuestion } from "../QuestionManagement/service";
 
 export interface IExam {
@@ -7,7 +7,7 @@ export interface IExam {
   name: string;
   examTime: number;
   sections: {
-    type: LessonType;
+    type: LESSON_TYPE;
     questions: IQuestion[];
   }[];
 }
