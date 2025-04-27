@@ -3,10 +3,8 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers, IUser } from "./service";
 import dayjs from "dayjs";
-import { MdHistory } from "react-icons/md";
-import HistoryModal from "./HistoryModal/HistoryModal";
 
-const UserManagement = () => {
+const AccountManagement = () => {
   const { data } = useQuery({
     queryKey: ["USER_LIST"],
     queryFn: getUsers,
@@ -87,25 +85,21 @@ const UserManagement = () => {
       },
     },
     {
-      title: "Hành động",
-      key: "action",
-      render: (_, record) => (
-        <HistoryModal userId={record._id}>
-          <Flex
-            className="size-8 cursor-pointer"
-            align="center"
-            justify="center"
-          >
-            <MdHistory className="text-xl" />
-          </Flex>
-        </HistoryModal>
-      ),
+      title: "Vai trò",
+      dataIndex: "role",
+      key: "role",
+      render: (role) => {
+        if (role === "ADMIN") {
+          return <span className="text-red-500">Quản trị viên</span>;
+        }
+        return <span className="text-blue-500">Người dùng</span>;
+      },
     },
   ];
 
   return (
     <>
-      <PageTitle title="Học viên" />
+      <PageTitle title="Người dùng" />
 
       <Table
         columns={columns}
@@ -119,4 +113,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default AccountManagement;

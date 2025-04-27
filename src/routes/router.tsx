@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/layout";
-import UserManagement from "../pages/UserManagement/UserManagement";
+import AccountManagement from "../pages/AccountManagement/AccountManagement";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ListVocabulary from "../pages/LessonManagement/VocabularyManagement/ListVocabulary";
 import AddVocabulary from "../pages/LessonManagement/VocabularyManagement/AddVocabulary";
@@ -19,6 +19,7 @@ import AddExam from "../pages/ExamManagament/AddExam";
 import EditExam from "../pages/ExamManagament/EditExam";
 import PrivateRoutes from "../components/PrivateRoutes/PrivateRoutes";
 import Login from "../pages/Login/Login";
+import UserManagement from "../pages/UserManagement/UserManagement";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,11 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/users",
+        path: "/account",
+        element: <AccountManagement />,
+      },
+      {
+        path: "/user",
         element: <UserManagement />,
       },
 

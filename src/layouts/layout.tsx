@@ -6,7 +6,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
 import { FaRegCircleQuestion } from "react-icons/fa6";
-import { PiExamLight } from "react-icons/pi";
+import { PiExamLight, PiStudentFill } from "react-icons/pi";
 import useProfile from "../hooks/useProfile";
 import useAuth from "../hooks/useAuth";
 
@@ -34,7 +34,13 @@ const MENU_ITEMS = [
     key: "2",
     icon: <FaRegUserCircle />,
     label: "Quản lý người dùng",
-    path: "/users",
+    path: "/account",
+  },
+  {
+    key: "6",
+    icon: <PiStudentFill />,
+    label: "Quản lý học viên",
+    path: "/user",
   },
   {
     key: "3",
