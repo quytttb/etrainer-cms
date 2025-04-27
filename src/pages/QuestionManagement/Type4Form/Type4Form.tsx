@@ -1,6 +1,7 @@
-import { Button, Form, Input, Radio } from "antd";
+import { Button, Form, Input } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
+import CustomRadio from "../../../components/CustomRadio/CustomRadio";
 
 const Type4Form = () => {
   return (
@@ -26,7 +27,7 @@ const Type4Form = () => {
                   name={[name, "isCorrect"]}
                   valuePropName="checked"
                 >
-                  <Radio />
+                  <CustomRadio />
                 </Form.Item>
 
                 <Form.Item

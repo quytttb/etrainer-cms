@@ -1,7 +1,8 @@
-import { Button, Form, Input, Radio } from "antd";
+import { Button, Form, Input } from "antd";
 import UploadFormItem from "../../../components/UploadFormItem/UploadFormItem";
 import { DeleteOutlined } from "@ant-design/icons";
 import FormWrapper from "../../../components/FormWrapper/FormWrapper";
+import CustomRadio from "../../../components/CustomRadio/CustomRadio";
 
 const Type1Form = () => {
   return (
@@ -32,7 +33,7 @@ const Type1Form = () => {
                   name={[name, "isCorrect"]}
                   valuePropName="checked"
                 >
-                  <Radio />
+                  <CustomRadio />
                 </Form.Item>
 
                 <Form.Item
