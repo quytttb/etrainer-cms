@@ -39,6 +39,7 @@ const AddQuestion = () => {
     mutationFn: async (values: any) => {
       let payload: any = {
         type,
+        ...values,
       };
 
       if (type1) {
@@ -99,11 +100,6 @@ const AddQuestion = () => {
           imageUrl,
         };
       }
-
-      payload = {
-        ...payload,
-        ...values,
-      };
 
       return request.post("/question", payload);
     },

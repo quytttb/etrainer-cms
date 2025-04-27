@@ -107,6 +107,7 @@ const EditQuestion = () => {
     mutationFn: async (values: any) => {
       let payload: any = {
         type,
+        ...values,
         questions: values.questions,
       };
 
@@ -132,6 +133,7 @@ const EditQuestion = () => {
           },
           imageUrl,
         };
+        console.log("🚀 TDS ~ mutationFn: ~ payload:", payload);
       }
 
       if (type2) {
@@ -178,11 +180,6 @@ const EditQuestion = () => {
           imageUrl,
         };
       }
-
-      payload = {
-        ...payload,
-        ...values,
-      };
 
       return request.put(`/question/${id}`, payload);
     },
