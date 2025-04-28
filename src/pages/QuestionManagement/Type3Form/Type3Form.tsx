@@ -2,6 +2,7 @@ import { Button, Form, Input } from "antd";
 import UploadFormItem from "../../../components/UploadFormItem/UploadFormItem";
 import { DeleteOutlined } from "@ant-design/icons";
 import CustomRadio from "../../../components/CustomRadio/CustomRadio";
+import TextArea from "antd/es/input/TextArea";
 
 const Type3Form = () => {
   return (
@@ -12,6 +13,28 @@ const Type3Form = () => {
         rules={[{ required: true, message: "Vui lòng chọn file audio" }]}
       >
         <UploadFormItem accept="audio/*" />
+      </Form.Item>
+
+      <Form.Item
+        name="subtitle"
+        label="Phụ đề"
+        rules={[{ required: true, message: "Vui lòng nhập phụ đề" }]}
+      >
+        <TextArea
+          placeholder="Nhập phụ đề"
+          autoSize={{ minRows: 4, maxRows: 10 }}
+        />
+      </Form.Item>
+
+      <Form.Item
+        name="explanation"
+        label="Giải thích"
+        rules={[{ required: true, message: "Vui lòng nhập giải thích" }]}
+      >
+        <TextArea
+          placeholder="Nhập giải thích"
+          autoSize={{ minRows: 4, maxRows: 10 }}
+        />
       </Form.Item>
 
       <Form.List name="questions">

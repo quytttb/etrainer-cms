@@ -25,6 +25,8 @@ export interface IQuestion {
   questions?: NestedQuestion[] | null;
   createdAt?: Date;
   updatedAt?: Date;
+  explanation?: string | null;
+  subtitle?: string | null;
 }
 
 interface IGetQuestionParams {

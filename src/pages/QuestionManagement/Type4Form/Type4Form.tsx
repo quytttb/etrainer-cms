@@ -17,6 +17,28 @@ const Type4Form = () => {
         />
       </Form.Item>
 
+      <Form.Item
+        name="subtitle"
+        label="Phụ đề"
+        rules={[{ required: true, message: "Vui lòng nhập phụ đề" }]}
+      >
+        <TextArea
+          placeholder="Nhập phụ đề"
+          autoSize={{ minRows: 4, maxRows: 10 }}
+        />
+      </Form.Item>
+
+      <Form.Item
+        name="explanation"
+        label="Giải thích"
+        rules={[{ required: true, message: "Vui lòng nhập giải thích" }]}
+      >
+        <TextArea
+          placeholder="Nhập giải thích"
+          autoSize={{ minRows: 4, maxRows: 10 }}
+        />
+      </Form.Item>
+
       <Form.List name="answers">
         {(fields, { add, remove }) => (
           <>

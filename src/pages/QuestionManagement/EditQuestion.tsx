@@ -63,6 +63,8 @@ const EditQuestion = () => {
         image: {
           previewUrl: data.imageUrl,
         },
+        explanation: data.explanation,
+        subtitle: data.subtitle,
       });
       return;
     }
@@ -74,6 +76,8 @@ const EditQuestion = () => {
           name: data.audio?.name,
           previewUrl: data.audio?.url,
         },
+        explanation: data.explanation,
+        subtitle: data.subtitle,
       });
       return;
     }
@@ -85,6 +89,7 @@ const EditQuestion = () => {
           name: data.audio?.name,
           previewUrl: data.audio?.url,
         },
+        explanation: data.explanation,
       });
       return;
     }
@@ -95,6 +100,7 @@ const EditQuestion = () => {
         image: {
           previewUrl: data.imageUrl,
         },
+        subtitle: data.subtitle,
       });
       return;
     }
