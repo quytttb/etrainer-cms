@@ -17,6 +17,9 @@ import EditQuestion from "../pages/QuestionManagement/EditQuestion";
 import ListExam from "../pages/ExamManagament/ListExam";
 import AddExam from "../pages/ExamManagament/AddExam";
 import EditExam from "../pages/ExamManagament/EditExam";
+import ListStage from "../pages/StageManagement/ListStage";
+import AddStage from "../pages/StageManagement/AddStage";
+import EditStage from "../pages/StageManagement/EditStage";
 import PrivateRoutes from "../components/PrivateRoutes/PrivateRoutes";
 import Login from "../pages/Login/Login";
 import UserManagement from "../pages/UserManagement/UserManagement";
@@ -111,6 +114,20 @@ const router = createBrowserRouter([
       {
         path: "/exam/edit/:id",
         element: <EditExam />,
+      },
+
+      // stage
+      {
+        path: "/stages",
+        element: <ListStage />,
+      },
+      {
+        path: "/stages/add",
+        element: <AddStage />,
+      },
+      {
+        path: "/stages/edit/:id",
+        element: <EditStage />,
       },
     ],
   },

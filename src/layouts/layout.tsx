@@ -7,6 +7,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import { PiExamLight, PiStudentFill } from "react-icons/pi";
+import { MdOutlineTimeline } from "react-icons/md";
 import useProfile from "../hooks/useProfile";
 import useAuth from "../hooks/useAuth";
 
@@ -75,6 +76,12 @@ const MENU_ITEMS = [
     icon: <PiExamLight />,
     label: "Quản lý đề thi",
     path: "/exam",
+  },
+  {
+    key: "7",
+    icon: <MdOutlineTimeline />,
+    label: "Quản lý giai đoạn",
+    path: "/stages",
   },
 ];
 
